@@ -1,0 +1,97 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Temp files
+*~
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Editor/IDE
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+*.code-workspace
+
+# JetBrains
+/.idea/
+/out/
+
+# Eclipse
+.project
+.classpath
+.settings/
+.recommenders/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Node / npm
+node_modules/
+npm-debug.log*
+yarn-error.log
+yarn-debug.log
+.pnp.*
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+env/
+venv/
+.env
+.venv
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+/target/
+
+# Gradle
+.gradle/
+/build/
+
+# Maven wrapper
+.mvn/wrapper/maven-wrapper.jar
+
+# Go
+/bin/
+/pkg/
+
+# Rust
+/target/
+
+# Container / virtualization
+*.box
+.vagrant/
+docker-compose.override.yml
+
+# Archive files
+*.zip
+*.tar.gz
+*.tgz
+*.7z
+
+# Certificates / keys (sensitive)
+*.pem
+*.key
+*.crt
+
+# System files
+ehthumbs.db
+Icon?
