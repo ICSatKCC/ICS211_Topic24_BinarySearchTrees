@@ -1,4 +1,8 @@
 package binarysearchtree;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * Generic class for a binary search tree.
  * 
@@ -81,7 +85,7 @@ public class BinarySearchTree<T extends Comparable<T>> {
       if (node != null) {
          displayNodes = displayNodes 
             + this.inOrder(node.getLeftChild());
-         displayNodes = displayNodes + node.toString() + "\n";
+         displayNodes = displayNodes + node.toString() + ", ";
          displayNodes = displayNodes 
             + this.inOrder(node.getRightChild());
       }
@@ -106,7 +110,7 @@ public class BinarySearchTree<T extends Comparable<T>> {
    private String preOrder(BinaryNode<T> node) {
       String displayNodes = "";
       if (node != null) {
-         displayNodes = displayNodes + node.toString() + "\n";
+         displayNodes = displayNodes + node.toString() + ", ";
          displayNodes = displayNodes
             + this.preOrder(node.getLeftChild());
          displayNodes = displayNodes 
@@ -136,7 +140,7 @@ public class BinarySearchTree<T extends Comparable<T>> {
       if (node != null) {
          displayNodes = displayNodes + this.postOrder(node.getLeftChild());
          displayNodes = displayNodes + this.postOrder(node.getRightChild());
-         displayNodes = displayNodes + node + "\n";
+         displayNodes = displayNodes + node + ", ";
       }
       return displayNodes;
    }
@@ -303,6 +307,96 @@ public class BinarySearchTree<T extends Comparable<T>> {
       }
    }
 
+   /** Breadth-first traversal to display the tree 
+    * 
+   */
+   public void breadthFirstDisplay() {
+      if (root == null) {
+         return;
+      }
+
+      Queue<BinaryNode<T>> queue = new LinkedList<>();
+      
+ 
+      int largestLevel = 0;
+      int spacing = 0;
+      int level = 0;
+      int totalNodes = 0;
+      int totalStringLength = 0;
+
+      String spaces = " ";
+      ArrayList<ArrayList<T>> levels = new ArrayList<>();
+      ArrayList<T> currentLevel = new ArrayList<>();
+
+      queue.offer(root);
+      currentLevel.add(root.getData());
+      totalNodes++;
+      totalStringLength += root.getData().toString().length();
+      levels.add(currentLevel);
+      // traverse to put all levels in their own arraylist
+      while (!queue.isEmpty()) {
+         level++;
+         //store previous level
+         ArrayList<T> previousLevel = currentLevel;
+         currentLevel = new ArrayList<>((int) Math.pow(2, level));
+         for (int i = 0; i < previousLevel.size(); i++) {
+            if (previousLevel.get(i) == null) { // if parent is null, add two nulls to maintain structure
+               currentLevel.add(null);
+               currentLevel.add(null);
+            }  else {
+               BinaryNode<T> node = queue.poll();
+               if (node.getLeftChild() != null) {
+                  queue.offer(node.getLeftChild());
+                  currentLevel.add(node.getLeftChild().getData());
+                  totalNodes++;
+                  totalStringLength += node.getLeftChild().getData().toString().length();
+               } else {
+                  currentLevel.add(null);
+               }
+               if (node.getRightChild() != null) {
+                  queue.offer(node.getRightChild());
+                  currentLevel.add(node.getRightChild().getData());
+                  totalNodes++;
+                  totalStringLength += node.getRightChild().getData().toString().length();
+               } else {
+                  currentLevel.add(null);
+               }
+            }
+         }
+         levels.add(currentLevel);
+      }
+      largestLevel =  (int) Math.pow(2, level-1) * (totalStringLength / totalNodes); //  
+      spacing = (largestLevel + 1) / 2;
+      System.out.println("Breadth-First Display of Tree:");
+      // System.out.println("Largest level size for spacing: " + largestLevel);
+      // System.out.println("Total nodes: " + totalNodes);  
+      // System.out.println("Total string length: " + totalStringLength);
+      // System.out.println("Initial Spacing: " + spacing);
+      levels.remove(levels.size()-1)   ; //remove last level if all nulls
+      for (ArrayList<T> lev : levels) {
+        
+         System.out.print(spaces.repeat(spacing));
+         for (T item : lev) {
+            if (item != null) {
+               System.out.print(" " + item + spaces.repeat(spacing));
+            } else { //print average spacing for null nodes
+               System.out.print(spaces.repeat(spacing + 4));
+            }
+         }
+         System.out.println("");
+         System.out.print(spaces.repeat(spacing));
+         for (T item : lev) {
+            if (item != null) {
+               System.out.print("/" + spaces.repeat(item.toString().length()) + "\\" + spaces.repeat(spacing));
+            } else { // print average spacing for null nodes
+               System.out.print(spaces.repeat(spacing + 4));
+            }
+         }
+         System.out.println("\n");
+         spacing = spacing /2;
+      }
+   }
+
   /**
    * Driver code to test class.
    * 
@@ -312,46 +406,69 @@ public class BinarySearchTree<T extends Comparable<T>> {
    // using BinaryNode<String>
       BinarySearchTree<String> tree = new BinarySearchTree<String>();
       System.out.println("TEST add() method:");
-      tree.add("mahimahi");
-      tree.add("hee");
-      tree.add("ono");
-      tree.add("mano");
-      tree.add("lauwiliwili");
-      tree.add("honu");
-      tree.add("ulua");
+      System.out.println("Adding ohua:");
+      tree.add("ohua");
+      System.out.println("Adding panuhunuhu:");
+      tree.add("panuhunuhu");
+      System.out.println("Adding kahaha:");
+      tree.add("kahaha");
+      System.out.println("Adding oama:");    
+      tree.add("oama");
+      System.out.println("Adding moilii:");  
+      tree.add("moilii");
+      System.out.println("Adding palamoi:");
+      tree.add("palamoi");
+      System.out.println("Adding anae:");
+      tree.add("anae");
+      System.out.println("Adding amaama:");
+      tree.add("amaama");
+      System.out.println("Adding moimana:");
+      tree.add("moimana");
+      System.out.println("Adding uhu:");
       tree.add("uhu");
-      tree.add("ahi");
-      System.out.println("preorder:\n" + tree.preOrder());
-      System.out.println("inorder:\n" + tree.toString());
-      System.out.println("postorder:\n" + tree.postOrder());
+      System.out.println("Adding wekea:");
+      tree.add("wekea");
+      System.out.println("Adding wekeula:");
+      tree.add("wekeula");
+      
+      tree.breadthFirstDisplay();
+      System.out.println();
+      System.out.println("preorder traversal:\n" + tree.preOrder());
+      System.out.println("inorder traversal:\n" + tree.toString());
+      System.out.println("postorder traversal:\n" + tree.postOrder());
    
    // test get
       System.out.println("TEST get() method:");
-      String fish = tree.get("mahimahi");
-      System.out.println(fish);
-      fish = tree.get("ono");
-      System.out.println(fish);
+      String fish = tree.get("kahaha");
+      System.out.println("Got: " + fish);
+      fish = tree.get("wekea");
+      System.out.println("Got: " + fish);
       try {
-         fish = tree.get("tuna");
-         System.out.println(fish);
+         System.out.println("Trying to get item not in tree (ahi): ");
+         fish = tree.get("ahi");
+         System.out.println("Got: " + fish);
       } 
       catch (TreeException exception) {
          System.out.println(exception.toString());
       }
       fish = tree.get("uhu");
-      System.out.println(fish);
-   
+      System.out.println("Got: " + fish);
+      tree.breadthFirstDisplay();
    // test remove
       System.out.println("\nTEST remove() method:");
-      System.out.println("inorder:\n" + tree.toString());
-      tree.remove("mahimahi");
-      System.out.println("inorder:\n" + tree.toString());
-      tree.remove("ulua");
-      System.out.println("inorder:\n" + tree.toString());
-      tree.remove("ono");
-      System.out.println("inorder:\n" + tree.toString());
-      tree.remove("ahi");
-      System.out.println("inorder:\n" + tree.toString());
+
+      tree.remove("ohua");
+      System.out.println("After removing ohua:");
+      tree.breadthFirstDisplay();
+      tree.remove("wekeula");
+      System.out.println("After removing wekeula:");
+      tree.breadthFirstDisplay();
+      tree.remove("palamoi");
+      System.out.println("After removing palamoi:");
+      tree.breadthFirstDisplay();
+      tree.remove("oama");
+      System.out.println("After removing oama:");
+      tree.breadthFirstDisplay();
    } // end of main
 } // end of class
 
